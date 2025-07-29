@@ -1,3 +1,3 @@
-export default class DummyClass {
+import { axios } from './axios'
 
-}
+export default axios
