@@ -104,3 +104,50 @@ export interface Axios {
  * axios实例
  */
 export interface AxiosInstance extends Axios {}
+
+/**
+ * axios错误代码
+ */
+export type AxiosErrorCode
+  = | 'ERR_BAD_OPTION_VALUE' // 无效的选项值
+    | 'ERR_BAD_OPTION' // 无效的选项
+    | 'ECONNABORTED' // 连接中止
+    | 'ETIMEDOUT' // 连接超时
+    | 'ERR_NETWORK' // 网络错误
+    | 'ERR_FR_TOO_MANY_REDIRECTS' // 重定向次数过多
+    | 'ERR_DEPRECATED' // 已废弃
+    | 'ERR_BAD_RESPONSE' // 错误的响应
+    | 'ERR_BAD_REQUEST' // 错误的请求
+    | 'ERR_CANCELED' // 请求取消
+    | 'ERR_NOT_SUPPORT' // 不支持
+    | 'ERR_INVALID_URL' // 无效的URL
+
+/**
+ * axios自定义错误
+ */
+export interface AxiosError extends Error {
+  /**
+   * 是否是axios自定义错误
+   */
+  isAxiosError: boolean
+
+  /**
+   * 请求配置
+   */
+  config: AxiosRequestConfig
+
+  /**
+   * 错误信息
+   */
+  code?: AxiosErrorCode | null
+
+  /**
+   * 请求
+   */
+  request?: XMLHttpRequest
+
+  /**
+   * 响应
+   */
+  response?: AxiosResponse
+}
