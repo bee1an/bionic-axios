@@ -1,5 +1,6 @@
 import type { AxiosPromise, AxiosRequestConfig, Axios as IAxios } from '@/types'
 import dispatchRequest from './dispatchRequest'
+import mergeConfig from './mergeConfig'
 
 export default class Axios implements IAxios {
   default: AxiosRequestConfig
@@ -16,7 +17,9 @@ export default class Axios implements IAxios {
       config = url
     }
 
+    config = mergeConfig(this.default, config)
+
     // 将请求派遣给具体的请求方法
-    return dispatchRequest({ ...this.default, ...config })
+    return dispatchRequest(config)
   }
 }

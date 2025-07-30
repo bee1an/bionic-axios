@@ -1,3 +1,5 @@
+import { getPrototypeOf, kindof } from './utils'
+
 // eslint-disable-next-line valid-typeof
 const typeofTest = (type: string) => (thing: unknown) => typeof thing === type
 
@@ -9,3 +11,20 @@ export const isObject = (thing: unknown): thing is object => thing !== null && t
 export const isArray = <T = unknown>(thing: unknown): thing is T[] => Array.isArray(thing)
 
 export const isUndefined = typeofTest('undefined') as (thing: unknown) => thing is undefined
+
+/**
+ * 判断一个对象是否是纯对象
+ */
+export function isPlainObject(thing: unknown): thing is Record<string, unknown> {
+  if (kindof(thing) !== 'object')
+    return false
+
+  const prototype = getPrototypeOf(thing)
+  return (
+    prototype === null
+    || prototype === Object.prototype
+    || Object.getPrototypeOf(prototype) === null
+  )
+  && !(Symbol.toStringTag in (thing as object))
+  && !(Symbol.iterator in (thing as object))
+}
