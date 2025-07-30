@@ -5,8 +5,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: './lib/index.ts',
-      name: 'ts-lib',
-      fileName: 'ts-lib',
+      name: 'bionic-axios',
+      fileName: 'bionic-axios',
     },
   },
   resolve: {
