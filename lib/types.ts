@@ -119,6 +119,11 @@ export interface Axios extends AxiosWhitoutData, AxiosWithData {
    */
   default: AxiosRequestConfig
 
+  interceptors: {
+    request: InterceptorManager<AxiosRequestConfig>
+    response: InterceptorManager<AxiosResponse>
+  }
+
   /**
    * 请求发送函数
    */
@@ -128,6 +133,23 @@ export interface Axios extends AxiosWhitoutData, AxiosWithData {
    * 获取请求链接
    */
   getUri: (config?: AxiosRequestConfig) => string
+}
+
+export type ResolvedFn<T> = (value: T) => T | Promise<T>
+
+export type RejectedFn = (error: any) => any
+
+export interface Interceptor<T> {
+  resolved: ResolvedFn<T>
+  rejected: RejectedFn
+}
+
+/**
+ * 拦截器
+ */
+export interface InterceptorManager<T> {
+  use: (resolved: ResolvedFn<T>, rejected: RejectedFn) => number
+  eject: (id: number) => void
 }
 
 /**

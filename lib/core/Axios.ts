@@ -1,9 +1,15 @@
-import type { AxiosPromise, AxiosRequestConfig, Axios as IAxios } from '@/types'
+import type { AxiosPromise, AxiosRequestConfig, AxiosResponse, Axios as IAxios, RejectedFn, ResolvedFn } from '@/types'
 import dispatchRequest, { transformURL } from './dispatchRequest'
+import InterceptorManager from './InterceptorManager'
 import mergeConfig from './mergeConfig'
 
 export default class Axios implements IAxios {
   default: AxiosRequestConfig
+
+  interceptors: { request: InterceptorManager<AxiosRequestConfig>, response: InterceptorManager<AxiosResponse> } = {
+    request: new InterceptorManager<AxiosRequestConfig>(),
+    response: new InterceptorManager<AxiosResponse>(),
+  }
 
   constructor(config: AxiosRequestConfig) {
     this.default = config
@@ -19,8 +25,31 @@ export default class Axios implements IAxios {
 
     config = mergeConfig(this.default, config)
 
+    const chain: ({
+      resolved: ResolvedFn<any> | ((config: AxiosRequestConfig) => AxiosPromise<any>)
+      rejected?: RejectedFn
+    })[] = [{
+      resolved: dispatchRequest,
+      rejected: void 0,
+    }]
+
+    this.interceptors.request.forEach((interceptor) => {
+      chain.unshift(interceptor!)
+    })
+    this.interceptors.response.forEach((interceptor) => {
+      chain.push(interceptor!)
+    })
+
+    let promise = Promise.resolve(config) as AxiosPromise
+
+    while (chain.length) {
+      const { resolved, rejected } = chain.shift()!
+      // promise结果透传
+      promise = promise.then(resolved, rejected)
+    }
+
     // 将请求派遣给具体的请求方法
-    return dispatchRequest(config)
+    return promise
   }
 
   getUri(config?: AxiosRequestConfig): string {
