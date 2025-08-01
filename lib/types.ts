@@ -95,10 +95,20 @@ export interface AxiosResponse<T = any> {
  */
 export type AxiosPromise<T = any> = Promise<AxiosResponse<T>>
 
+type AxiosWhitoutDataMethods = 'delete' | 'get' | 'head' | 'options'
+type AxiosWhitoutData = {
+  [key in AxiosWhitoutDataMethods]: (url: string, config?: AxiosRequestConfig) => AxiosPromise
+}
+
+type AxiosWithDataMethods = 'post' | 'put' | 'patch' | 'postForm' | 'putForm' | 'patchForm'
+type AxiosWithData = {
+  [key in AxiosWithDataMethods]: (url: string, data?: any, config?: AxiosRequestConfig) => AxiosPromise
+}
+
 /**
  * axios抽象接口
  */
-export interface Axios {
+export interface Axios extends AxiosWhitoutData, AxiosWithData {
   /**
    * 默认请求配置
    */
@@ -108,12 +118,28 @@ export interface Axios {
    * 请求发送函数
    */
   request: <T = any>(config: AxiosRequestConfig) => AxiosPromise<T>
+
+  /**
+   * 获取请求链接
+   */
+  getUri: (config?: AxiosRequestConfig) => string
 }
 
 /**
  * axios实例
  */
-export interface AxiosInstance extends Axios {}
+export interface AxiosInstance extends Axios {
+  <T = any, R = AxiosResponse<T>>(config: AxiosRequestConfig): Promise<R>
+  <T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R>
+
+  create: (config: AxiosRequestConfig) => Axios
+}
+
+export interface AxiosStatic extends AxiosInstance {
+  Axios: Axios
+  all: <T>(values: (T | Promise<T>)[]) => Promise<T[]>
+  spread: <T, R>(callback: (...args: T[]) => R) => (array: T[]) => R
+}
 
 /**
  * axios错误代码

@@ -1,10 +1,24 @@
-import type { AxiosInstance, AxiosRequestConfig } from './types'
+import type { AxiosRequestConfig, AxiosStatic, Axios as IAxios } from './types'
 import Axios from './core/Axios'
 import defaults from './defaults'
 
-function createInstance(config: AxiosRequestConfig): AxiosInstance {
+function createInstance(config: AxiosRequestConfig): AxiosStatic {
   const axios = new Axios(config)
-  return axios
+
+  const instance = Object.assign(Axios.prototype.request.bind(axios), axios, {
+    create(config: AxiosRequestConfig) {
+      return createInstance(config)
+    },
+    Axios: Axios as unknown as IAxios,
+    all<T>(values: (T | Promise<T>)[]) {
+      return Promise.all(values)
+    },
+    spread<T, R>(callback: (...args: T[]) => R) {
+      return (array: T[]) => callback(...array)
+    },
+  })
+
+  return instance
 }
 
 /**
