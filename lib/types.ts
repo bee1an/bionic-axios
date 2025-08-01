@@ -58,6 +58,11 @@ export interface AxiosRequestConfig {
    * 序列化params的函数
    */
   paramsSerializer?: (params: Params) => string
+
+  /**
+   * 适配器
+   */
+  adapter?: 'xhr' | 'fetch' | 'http' | ((config: AxiosRequestConfig) => AxiosPromise)
 }
 
 /**

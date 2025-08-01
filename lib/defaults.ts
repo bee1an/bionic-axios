@@ -2,6 +2,7 @@ import type { AxiosRequestConfig } from './types'
 
 export default {
   method: 'get',
+  adapter: 'xhr',
   headers: {
     common: {
       Accept: 'application/json, text/plain, */*',
