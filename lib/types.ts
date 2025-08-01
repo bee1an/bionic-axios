@@ -48,6 +48,16 @@ export interface AxiosRequestConfig {
    * 请求状态码验证函数
    */
   validateStatus?: (status: number) => boolean
+
+  /**
+   * 基础 url
+   */
+  baseURL?: string
+
+  /**
+   * 序列化params的函数
+   */
+  paramsSerializer?: (params: Params) => string
 }
 
 /**

@@ -1,10 +1,17 @@
 import {
   isArray,
+  isDate,
   isFunction,
   isObject,
   isPlainObject,
   isUndefined,
 } from './is'
+
+import {
+  encode,
+  isAbsoluteURL,
+  isSearchParams,
+} from './url'
 
 import {
   deepMerge,
@@ -15,11 +22,15 @@ import {
 
 export {
   deepMerge,
+  encode,
   getPrototypeOf,
+  isAbsoluteURL,
   isArray,
+  isDate,
   isFunction,
   isObject,
   isPlainObject,
+  isSearchParams,
   isUndefined,
   kindof,
   toJSONObject,

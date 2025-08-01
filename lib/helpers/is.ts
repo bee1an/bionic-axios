@@ -28,3 +28,5 @@ export function isPlainObject(thing: unknown): thing is Record<string, unknown> 
   && !(Symbol.toStringTag in (thing as object))
   && !(Symbol.iterator in (thing as object))
 }
+
+export const isDate = (thing: unknown): thing is Date => kindof(thing) === 'date'
