@@ -3,6 +3,9 @@ import adapters from '@/adapters'
 import { deepMerge, encode, isAbsoluteURL, isDate, isPlainObject, isSearchParams } from '@/helpers'
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
+  if (config.cancelToken)
+    config.cancelToken.throwIfRequested()
+
   processConfig(config)
 
   return adapters.getAdapter(config.adapter!)

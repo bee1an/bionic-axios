@@ -63,6 +63,11 @@ export interface AxiosRequestConfig {
    * 适配器
    */
   adapter?: 'xhr' | 'fetch' | 'http' | ((config: AxiosRequestConfig) => AxiosPromise)
+
+  /**
+   * 取消请求
+   */
+  cancelToken?: CancelToken
 }
 
 /**
@@ -166,6 +171,26 @@ export interface AxiosStatic extends AxiosInstance {
   Axios: Axios
   all: <T>(values: (T | Promise<T>)[]) => Promise<T[]>
   spread: <T, R>(callback: (...args: T[]) => R) => (array: T[]) => R
+
+  CancelToken: CancelToken
+}
+
+export interface CancelSourceResult {
+  token: CancelToken
+  cancel: Promise<void>
+}
+
+export interface CancelExecutor {
+  (canceler?: (message?: string) => void): void
+}
+
+export interface CancelToken {
+  promise: Promise<string>
+  reason?: string
+
+  source: () => CancelSourceResult
+
+  throwIfRequested: () => void
 }
 
 /**

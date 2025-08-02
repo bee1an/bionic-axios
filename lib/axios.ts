@@ -1,4 +1,5 @@
-import type { AxiosRequestConfig, AxiosStatic, Axios as IAxios } from './types'
+import type { AxiosRequestConfig, AxiosStatic, Axios as IAxios, CancelToken as ICancelToken } from './types'
+import { CancelToken } from './cancel'
 import Axios from './core/Axios'
 import defaults from './defaults'
 
@@ -16,6 +17,7 @@ function createInstance(config: AxiosRequestConfig): AxiosStatic {
     spread<T, R>(callback: (...args: T[]) => R) {
       return (array: T[]) => callback(...array)
     },
+    CancelToken: CancelToken as unknown as ICancelToken,
   })
 
   return instance
