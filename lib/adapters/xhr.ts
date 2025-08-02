@@ -9,7 +9,7 @@ const isXHRSupported = typeof XMLHttpRequest !== 'undefined'
  */
 export default isXHRSupported && function (config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { method, url, data, headers, cancelToken } = config
+    const { method, url, data, headers, cancelToken, signal } = config
 
     const xhr = new XMLHttpRequest()
     xhr.open(method || 'get', url!, true)
@@ -37,15 +37,26 @@ export default isXHRSupported && function (config: AxiosRequestConfig): AxiosPro
 
     xhr.send(data as any)
 
-    if (cancelToken) {
+    if (cancelToken || signal) {
       const onCancel = (reason?: string): void => {
         xhr.abort()
         reject(createError(reason ?? 'Canceled', config, 'ERR_CANCELED', xhr))
       }
 
-      cancelToken.promise.then((reason) => {
-        onCancel(reason)
-      })
+      if (cancelToken) {
+        cancelToken.promise.then(onCancel)
+      }
+
+      if (signal) {
+        if (signal.aborted) {
+          onCancel()
+          return
+        }
+
+        signal.addEventListener('abort', () => {
+          onCancel()
+        })
+      }
     }
   })
 }

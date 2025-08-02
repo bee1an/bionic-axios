@@ -68,6 +68,11 @@ export interface AxiosRequestConfig {
    * 取消请求
    */
   cancelToken?: CancelToken
+
+  /**
+   * 取消请求2
+   */
+  signal?: AbortSignal
 }
 
 /**
