@@ -73,6 +73,39 @@ export interface AxiosRequestConfig {
    * 取消请求2
    */
   signal?: AbortSignal
+
+  /**
+   * 转换请求数据的函数
+   */
+  // TODO: see you later
+  transformRequest?: any
+
+  /**
+   * 转换响应数据的函数
+   */
+  // TODO: see you later
+  transformResponse?: any
+
+  /**
+   * 是否携带凭证
+   */
+  // TODO: see you later
+  withCredentials?: any
+
+  // TODO: see you later
+  xsrfCookieName?: any
+
+  // TODO: see you later
+  xsrfHeaderName?: any
+
+  // TODO: see you later
+  onUploadProgress?: any
+
+  // TODO: see you later
+  onDownloadProgress?: any
+
+  // TODO: see you later
+  auth?: any
 }
 
 /**
