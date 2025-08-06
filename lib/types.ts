@@ -87,23 +87,17 @@ export interface AxiosRequestConfig {
   /**
    * 是否携带凭证
    */
-  // TODO: see you later
-  withCredentials?: any
+  withCredentials?: boolean
 
-  // TODO: see you later
-  xsrfCookieName?: any
+  xsrfCookieName?: string
 
-  // TODO: see you later
-  xsrfHeaderName?: any
+  xsrfHeaderName?: string
 
-  // TODO: see you later
-  onUploadProgress?: any
+  onUploadProgress?: (event: ProgressEvent) => void
 
-  // TODO: see you later
-  onDownloadProgress?: any
+  onDownloadProgress?: (event: ProgressEvent) => void
 
-  // TODO: see you later
-  auth?: any
+  auth?: AxiosBasicCredentials
 }
 
 /**
@@ -282,4 +276,9 @@ export interface AxiosError extends Error {
 
 export interface AxiosTransformer {
   (this: AxiosRequestConfig, data: any, headers: IHeaders, status?: number): any
+}
+
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
 }

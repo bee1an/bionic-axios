@@ -1,3 +1,5 @@
+import { cookie } from './cookie'
+
 import {
   normalizeHeaderName,
   parseHeaders,
@@ -13,6 +15,7 @@ import {
   isObject,
   isPlainObject,
   isUndefined,
+  isURLSomeOrigin,
 } from './is'
 
 import { transformRequest, transformResponse } from
@@ -32,6 +35,7 @@ import {
 } from './utils'
 
 export {
+  cookie,
   deepMerge,
   encode,
   getPrototypeOf,
@@ -44,6 +48,7 @@ export {
   isPlainObject,
   isSearchParams,
   isUndefined,
+  isURLSomeOrigin,
   kindof,
   normalizeHeaderName,
   parseHeaders,

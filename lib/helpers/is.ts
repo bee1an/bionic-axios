@@ -32,3 +32,12 @@ export function isPlainObject(thing: unknown): thing is Record<string, unknown> 
 export const isDate = (thing: unknown): thing is Date => kindof(thing) === 'date'
 
 export const isFormData = (thing: unknown): thing is FormData => thing instanceof FormData
+
+export function isURLSomeOrigin(thing: string): boolean {
+  const a = document.createElement('a')
+  a.href = thing
+
+  const { origin } = a
+
+  return origin === window.location.origin
+}
