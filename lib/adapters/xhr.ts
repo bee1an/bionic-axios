@@ -1,4 +1,5 @@
 import type { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '@/types'
+import CancelError from '@/cancel/CancelError'
 import { createError } from '@/core/AxiosError'
 import { settle } from '@/core/settle'
 
@@ -40,7 +41,7 @@ export default isXHRSupported && function (config: AxiosRequestConfig): AxiosPro
     if (cancelToken || signal) {
       const onCancel = (reason?: string): void => {
         xhr.abort()
-        reject(createError(reason ?? 'Canceled', config, 'ERR_CANCELED', xhr))
+        reject(new CancelError(reason ?? 'Canceled', config, xhr))
       }
 
       if (cancelToken) {

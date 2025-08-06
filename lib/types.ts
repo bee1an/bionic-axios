@@ -219,12 +219,16 @@ export interface CancelSourceResult {
 }
 
 export interface CancelExecutor {
-  (canceler?: (message?: string) => void): void
+  (canceler?: (message?: string, config?: AxiosRequestConfig, request?: XMLHttpRequest) => void): void
+}
+
+export interface CancelError {
+  __CANCEL__: boolean
 }
 
 export interface CancelToken {
-  promise: Promise<string>
-  reason?: string
+  promise: Promise<any>
+  reason?: CancelError
 
   source: () => CancelSourceResult
 

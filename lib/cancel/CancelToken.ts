@@ -1,18 +1,19 @@
-import type { CancelExecutor, CancelSourceResult, CancelToken as ICancelToken } from '@/types'
+import type { AxiosRequestConfig, CancelExecutor, CancelSourceResult, CancelToken as ICancelToken } from '@/types'
+import CancelError from './CancelError'
 
 export default class CancelToken implements ICancelToken {
   promise: Promise<any>
-  reason?: any
+  reason?: CancelError
 
   constructor(executor: CancelExecutor) {
     const { promise, resolve } = Promise.withResolvers<void>()
 
     this.promise = promise
 
-    executor((message?: string) => {
+    executor((message?: string, config?: AxiosRequestConfig, request?: XMLHttpRequest) => {
       if (this.reason)
         return
-      this.reason = message
+      this.reason = new CancelError(message ?? 'Canceled', config, request)
       resolve()
     })
   }
@@ -30,6 +31,6 @@ export default class CancelToken implements ICancelToken {
 
   throwIfRequested(): void {
     if (this.reason)
-      throw this.reason // TODO
+      throw this.reason
   }
 }
