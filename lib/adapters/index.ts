@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig } from '@/types'
+import type { AxiosPromise, AxiosRequestConfig } from '@/types'
 import { isFunction } from '@/helpers'
 import fetch from './fetch'
 import http from './http'
@@ -11,7 +11,7 @@ const adapters = {
 }
 
 export default {
-  getAdapter(adapter: NonNullable<AxiosRequestConfig['adapter']>) {
+  getAdapter(adapter: NonNullable<AxiosRequestConfig['adapter']>): (config: AxiosRequestConfig) => AxiosPromise {
     if (isFunction(adapter)) {
       return adapter
     }

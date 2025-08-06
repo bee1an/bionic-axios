@@ -77,14 +77,12 @@ export interface AxiosRequestConfig {
   /**
    * 转换请求数据的函数
    */
-  // TODO: see you later
-  transformRequest?: any
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
 
   /**
    * 转换响应数据的函数
    */
-  // TODO: see you later
-  transformResponse?: any
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
 
   /**
    * 是否携带凭证
@@ -280,4 +278,8 @@ export interface AxiosError extends Error {
    * 响应
    */
   response?: AxiosResponse
+}
+
+export interface AxiosTransformer {
+  (this: AxiosRequestConfig, data: any, headers: IHeaders, status?: number): any
 }

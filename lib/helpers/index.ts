@@ -1,4 +1,11 @@
 import {
+  normalizeHeaderName,
+  parseHeaders,
+  plattenHeaders,
+  processHeaders,
+} from './headers'
+
+import {
   isArray,
   isDate,
   isFunction,
@@ -6,6 +13,9 @@ import {
   isPlainObject,
   isUndefined,
 } from './is'
+
+import { transformRequest, transformResponse } from
+  './transform'
 
 import {
   encode,
@@ -33,5 +43,11 @@ export {
   isSearchParams,
   isUndefined,
   kindof,
+  normalizeHeaderName,
+  parseHeaders,
+  plattenHeaders,
+  processHeaders,
   toJSONObject,
+  transformRequest,
+  transformResponse,
 }
