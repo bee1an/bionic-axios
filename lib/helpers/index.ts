@@ -8,6 +8,7 @@ import {
 import {
   isArray,
   isDate,
+  isFormData,
   isFunction,
   isObject,
   isPlainObject,
@@ -37,6 +38,7 @@ export {
   isAbsoluteURL,
   isArray,
   isDate,
+  isFormData,
   isFunction,
   isObject,
   isPlainObject,

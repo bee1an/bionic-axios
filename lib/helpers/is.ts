@@ -30,3 +30,5 @@ export function isPlainObject(thing: unknown): thing is Record<string, unknown> 
 }
 
 export const isDate = (thing: unknown): thing is Date => kindof(thing) === 'date'
+
+export const isFormData = (thing: unknown): thing is FormData => thing instanceof FormData

@@ -2,7 +2,7 @@ import type { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '@/types'
 import CancelError from '@/cancel/CancelError'
 import { createError } from '@/core/AxiosError'
 import { settle } from '@/core/settle'
-import { parseHeaders } from '@/helpers'
+import { isFormData, parseHeaders } from '@/helpers'
 
 const isXHRSupported = typeof XMLHttpRequest !== 'undefined'
 
@@ -11,7 +11,7 @@ const isXHRSupported = typeof XMLHttpRequest !== 'undefined'
  */
 export default isXHRSupported && function (config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { method, url, data, cancelToken, signal } = config
+    const { method, url, data, cancelToken, signal, headers } = config
 
     const xhr = new XMLHttpRequest()
     xhr.open(method || 'get', url!, true)
@@ -62,5 +62,16 @@ export default isXHRSupported && function (config: AxiosRequestConfig): AxiosPro
         })
       }
     }
+
+    if (isFormData(data)) {
+      delete headers!['Content-Type']
+    }
+
+    Object.keys(headers!).forEach((name) => {
+      if (data === null && name.toLowerCase() === 'content-type')
+        delete headers![name]
+      else
+        xhr.setRequestHeader(name, headers![name])
+    })
   })
 }
