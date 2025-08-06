@@ -1,31 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { plattenHeaders, transformURL } from '@/core/dispatchRequest'
+import { transformURL } from '@/core/transformURL'
 
 describe('dispatchRequest', () => {
-  describe('plattenHeaders', () => {
-    it('should platten headers', () => {
-      const headers = {
-        common: {
-          a: 1,
-          b: 2,
-        },
-        get: {
-          c: 3,
-        },
-        d: 4,
-      }
-
-      expect(plattenHeaders(headers, 'get')).toMatchInlineSnapshot(`
-        {
-          "a": 1,
-          "b": 2,
-          "c": 3,
-          "d": 4,
-        }
-      `)
-    })
-  })
-
   describe('transformURL', () => {
     it('should not transform url', () => {
       const config = {
